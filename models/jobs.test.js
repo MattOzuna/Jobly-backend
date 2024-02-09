@@ -21,7 +21,7 @@ describe("create", function () {
       title: "New",
       salary: 100000,
       equity: "0",
-      company_handle: "c1",
+      companyHandle: "c1",
     };
   
     test("works", async function () {
@@ -29,7 +29,7 @@ describe("create", function () {
       expect(job).toMatchObject(newJob);
   
       const result = await db.query(
-            `SELECT title, salary, equity, company_handle
+            `SELECT title, salary, equity, company_handle as "companyHandle"
              FROM jobs
              WHERE title = 'New'`);
       expect(result.rows).toEqual([
@@ -37,7 +37,7 @@ describe("create", function () {
             title: "New",
             salary: 100000,
             equity: '0',
-            company_handle: "c1",
+            companyHandle: "c1",
         }]);
     });
   });
@@ -143,7 +143,7 @@ describe("update", function () {
         title: "New",
         salary: 100000,
         equity: "0",
-        company_handle: "c1",
+        companyHandle: "c1",
     };
     test("works", async function () {
         const idArr = await db.query(
@@ -156,7 +156,7 @@ describe("update", function () {
         });
     
         const result = await db.query(
-            `SELECT id, title, salary, equity, company_handle
+            `SELECT id, title, salary, equity, company_handle as "companyHandle"
             FROM jobs
             WHERE title = 'New'`);
         expect(result.rows).toEqual([{
@@ -164,7 +164,7 @@ describe("update", function () {
             title: "New",
             salary: 100000,
             equity: "0",
-            company_handle: "c1",
+            companyHandle: "c1",
         }]);
     });
     test("works: null fields", async function () {
@@ -172,7 +172,7 @@ describe("update", function () {
             title: "New",
             salary: null,
             equity: null,
-            company_handle: "c1",
+            companyHandle: "c1",
         };
         const idArr = await db.query(
             `SELECT id FROM jobs WHERE title = 'j2'`
@@ -184,7 +184,7 @@ describe("update", function () {
         });
     
         const result = await db.query(
-            `SELECT id, title, salary, equity, company_handle
+            `SELECT id, title, salary, equity, company_handle as "companyHandle"
             FROM jobs
             WHERE title = 'New'`);
         expect(result.rows).toEqual([{
@@ -192,7 +192,7 @@ describe("update", function () {
             title: "New",
             salary: null,
             equity: null,
-            company_handle: "c1",
+            companyHandle: "c1",
         }]);
       });
 

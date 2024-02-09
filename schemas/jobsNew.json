@@ -13,40 +13,24 @@
         "title": {
             "type": "string",
             "default": "",
-            "title": "The title Schema",
-            "examples": [
-                "New"
-            ]
+            "title": "The title Schema"
         },
         "salary": {
             "type": "integer",
             "default": null,
             "title": "The salary Schema",
-            "examples": [
-                100000
-            ]
+            "minimum": 0
         },
         "equity": {
             "type": "integer",
             "default": null,
             "title": "The equity Schema",
-            "examples": [
-                "0"
-            ]
+            "maximum": 1.0
         },
         "companyHandle": {
             "type": "string",
             "default": "",
-            "title": "The company_handle Schema",
-            "examples": [
-                "c1"
-            ]
+            "title": "The company_handle Schema"
         }
-    },
-    "examples": [{
-        "title": "New",
-        "salary": 100000,
-        "equity": 0,
-        "company_handle": "example-company"
-    }]
+    }
 }
