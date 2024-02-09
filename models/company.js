@@ -63,7 +63,7 @@ class Company {
 
   /**Find some companies based on queries passed in
    * if the query for min employees is greater than max employees, throws error.
-   * 
+   * Starts with base query and adds WHERE statements based on what was receive in queries object
    * 
    * Returns [{handle, name, description, numEmployees, logoUrl}, ...]
    */
