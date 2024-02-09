@@ -157,6 +157,7 @@ describe("findSome", function () {
 describe("get", function () {
   test("works", async function () {
     let company = await Company.get("c1");
+    console.log(company)
     expect(company).toEqual({
       handle: "c1",
       name: "C1",

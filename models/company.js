@@ -117,17 +117,15 @@ class Company {
 
   static async get(handle) {
     const companyRes = await db.query(
-          `SELECT handle,
-                  name,
-                  description,
-                  num_employees AS "numEmployees",
-                  logo_url AS "logoUrl"
+          `SELECT companies.handle,
+                  companies.name,
+                  companies.description,
+                  companies.num_employees AS "numEmployees",
+                  companies.logo_url AS "logoUrl"
            FROM companies
            WHERE handle = $1`,
         [handle]);
-
     const company = companyRes.rows[0];
-
     if (!company) throw new NotFoundError(`No company: ${handle}`);
 
     return company;
