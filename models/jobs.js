@@ -14,13 +14,13 @@ class Jobs {
      * return value should be {id, title, salary, equity, company_handle}
      */
 
-    static async create ({title, salary, equity, company_handle}) {
+    static async create ({title, salary, equity, companyHandle}) {
         const newJob = await db.query(
             `INSERT INTO jobs 
             (title, salary, equity, company_handle)
             VALUES ($1, $2, $3, $4)
-            RETURNING id, title, salary, equity, company_handle`,
-            [title, salary, equity, company_handle]
+            RETURNING id, title, salary, equity, company_handle as "companyHandle"`,
+            [title, salary, equity, companyHandle]
         );
         return newJob.rows[0];
     }
@@ -85,7 +85,7 @@ class Jobs {
         const jobQuery =`UPDATE jobs 
                         SET ${setCols}
                         WHERE id = ${idVarIdx}
-                        RETURNING id, title, salary, equity, company_handle`;
+                        RETURNING id, title, salary, equity, company_handle as "companyHandle"`;
 
         const job = await db.query(jobQuery, [...values, id])
 
