@@ -1,8 +1,8 @@
 "use strict";
 
 const db = require("../db");
-const { BadRequestError, NotFoundError } = require("../expressError");
-const { sqlForPartialUpdate } = require("../helpers/sql");
+const { BadRequestError, NotFoundError, ExpressError } = require("../expressError");
+const { sqlForPartialUpdate, sqlForNameQuery, sqlForMinQuery, sqlForMaxQuery } = require("../helpers/sql");
 
 /** Related functions for companies. */
 
@@ -61,6 +61,53 @@ class Company {
     return companiesRes.rows;
   }
 
+  /**Find some companies based on queries passed in
+   * if the query for min employees is greater than max employees, throws error.
+   * 
+   * 
+   * Returns [{handle, name, description, numEmployees, logoUrl}, ...]
+   */
+  static async findSome(queries) {
+    const max = queries.maxEmployees
+    const min = queries.minEmployees
+
+    if(max && min && min > max){
+      throw new BadRequestError('minEmployees cannot be greater than maxEmployees')
+    }
+
+    let query = `SELECT handle, 
+                        name, 
+                        description,
+                        num_employees AS "numEmployees",
+                        logo_url AS "logoUrl"
+                FROM companies `;
+    let where = [];
+    let queryValues = [];
+    
+
+    if(queries.name){
+      queryValues.push('%'+queries.name+'%')
+      where.push(`name ILIKE $${queryValues.length}`)
+    }
+
+    if(min){
+      queryValues.push(min)
+      where.push(`num_employees >= $${queryValues.length}`)
+    }
+
+    if(max){
+      queryValues.push(max)
+      where.push(`num_employees <= $${queryValues.length}`)
+    }
+
+    if(where.length > 0){
+      query += 'WHERE '+ where.join(' AND ') + ' ORDER BY name'
+      console.log(query)
+    }
+
+    const results = await db.query(query, queryValues)
+    return results.rows
+  }
   /** Given a company handle, return data about company.
    *
    * Returns { handle, name, description, numEmployees, logoUrl, jobs }
