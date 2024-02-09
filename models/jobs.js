@@ -35,10 +35,53 @@ class Jobs {
                     title, 
                     salary, 
                     equity, 
-                    company_handle
+                    company_handle as "companyHandle"
             FROM jobs`
         );
         return jobs.rows
+    }
+
+    /**Find some jobs based on queries passed in
+   * 
+   * Starts with base query and adds WHERE statements based on what was receive in queries object
+   * 
+   * Returns [{id, title, salary, equity, companyHandle}, ...]
+   */
+
+    static async findSome(queries){
+        const {minSalary, hasEquity} = queries
+
+        let query = `SELECT id,
+                            title,
+                            salary,
+                            equity,
+                            company_handle as "companyHandle"
+                    FROM jobs `;
+        let where = [];
+        let queryValues = [];
+        
+
+        if(queries.title){
+            queryValues.push('%'+queries.title+'%')
+            where.push(`title ILIKE $${queryValues.length}`)
+        }
+
+        if(minSalary){
+            queryValues.push(minSalary)
+            where.push(`salary >= $${queryValues.length}`)
+        }
+
+        if(hasEquity === 'true'){
+            queryValues.push(0)
+            where.push(`equity > $${queryValues.length}`)
+        }
+
+        if(where.length > 0){
+            query += 'WHERE '+ where.join(' AND ');
+        }
+
+        const results = await db.query(query, queryValues);
+        return results.rows;
     }
 
     /**Finds a job by id

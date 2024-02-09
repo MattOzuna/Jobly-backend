@@ -63,7 +63,14 @@ router.patch('/:id', ensureLoggedIn, ensureAdmin, async (req,res,next) => {
     }
 })
 
-/** GET /  =>
+/** GET /  => [{job}, {job}, ...]
+ * 
+ * 
+ *  * Can filter on provided search filters:
+ * - minSalary
+ * - hasEquity as a Boolean
+ * - title (will find case-insensitive, partial matches)
+ * 
  *   { jobs: [ { id, title, salary, equity, company_handle }, ...] }
  *
  * Authorization required: none
@@ -71,8 +78,14 @@ router.patch('/:id', ensureLoggedIn, ensureAdmin, async (req,res,next) => {
 
 router.get("/", async (req, res, next) => {
     try {
-        const jobs = await Jobs.findAll();
-        return res.json({ jobs });
+        if(Object.keys(req.query).length === 0){
+            const jobs = await Jobs.findAll();
+            return res.json({ jobs });
+        }
+        else{
+            const jobs = await Jobs.findSome(req.query)
+            return res.json({jobs})
+        }
     } catch (err) {
       return next(err);
     }

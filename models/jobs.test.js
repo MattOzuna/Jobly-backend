@@ -52,26 +52,112 @@ describe("create", function () {
         
         let jobs = await Jobs.findAll();
         expect(jobs).toEqual([
-            {   id: idArr.rows[0].id,
+            {   
+                id: idArr.rows[0].id,
                 title: "j1",
                 salary: 100000,
                 equity: "0",
-                company_handle: "c1"
+                companyHandle: "c1"
             },
-            {   id: idArr.rows[1].id,
+            {   
+                id: idArr.rows[1].id,
                 title: "j2",
                 salary: 200000,
                 equity: "0",
-                company_handle: "c1"
+                companyHandle: "c1"
             },
-            {   id: idArr.rows[2].id,
+            {   
+                id: idArr.rows[2].id,
                 title: "j1",
                 salary: 100100,
                 equity: "0.5",
-                company_handle: "c2"
+                companyHandle: "c2"
             }
         ])
     })
+})
+
+  /************************************** findSome */
+  describe("findSome", function () {
+    test("works: with minSalary filter", async function () {
+        const idArr = await db.query(
+            `SELECT id FROM jobs`
+        )
+        let jobs = await Jobs.findSome({minSalary: 100001});
+        expect(jobs).toEqual([
+            {   
+                id: idArr.rows[1].id,
+                title: "j2",
+                salary: 200000,
+                equity: "0",
+                companyHandle: "c1"
+            },
+            {   
+                id: idArr.rows[2].id,
+                title: "j1",
+                salary: 100100,
+                equity: "0.5",
+                companyHandle: "c2"
+            }
+        ]);
+    });
+    test("works: with title filter", async function () {
+        const idArr = await db.query(
+            `SELECT id FROM jobs`
+        )
+        let jobs = await Jobs.findSome({title: 'j1'});
+        expect(jobs).toEqual([
+            {   
+                id: idArr.rows[0].id,
+                title: "j1",
+                salary: 100000,
+                equity: "0",
+                companyHandle: "c1"
+            },
+            {   
+                id: idArr.rows[2].id,
+                title: "j1",
+                salary: 100100,
+                equity: "0.5",
+                companyHandle: "c2"
+            }
+        ]);
+    });
+    test("works: with title filter", async function () {
+        const idArr = await db.query(
+            `SELECT id FROM jobs`
+        )
+        let jobs = await Jobs.findSome({hasEquity: 'true'});
+        expect(jobs).toEqual([
+            {   
+                id: idArr.rows[2].id,
+                title: "j1",
+                salary: 100100,
+                equity: "0.5",
+                companyHandle: "c2"
+            }
+        ]);
+    });
+    
+    test("works: with all three filters", async function () {
+        const idArr = await db.query(
+            `SELECT id FROM jobs`
+        )
+        let jobs = await Jobs.findSome({
+            title: 'j1',
+            minSalary: 100001,
+            hasEquity: 'false'});
+        expect(jobs).toEqual([
+            {   
+                id: idArr.rows[2].id,
+                title: "j1",
+                salary: 100100,
+                equity: "0.5",
+                companyHandle: "c2"
+            }
+        ]);
+    });
+
 })
 
   /************************************** get */
@@ -167,6 +253,7 @@ describe("update", function () {
             companyHandle: "c1",
         }]);
     });
+    
     test("works: null fields", async function () {
         const updateDataSetNulls = {
             title: "New",

@@ -78,19 +78,38 @@ describe('GET /jobs', () =>{
             title: 'j1',
             salary: 100000,
             equity: '0',
-            company_handle: 'c1'
+            companyHandle: 'c1'
         })
         expect(resp.body.jobs[1]).toMatchObject({
             title: 'j2',
             salary: 200000,
             equity: '0',
-            company_handle: 'c1'
+            companyHandle: 'c1'
         })
         expect(resp.body.jobs[2]).toMatchObject({
             title: 'j3',
             salary: 105000,
             equity: '0.5',
-            company_handle: 'c2'
+            companyHandle: 'c2'
+        })
+    })
+
+    test('get all jobs with minSalary 100001', async ()=>{
+        const resp = await request(app).get('/jobs?minSalary=100001&hasEquity=false')
+
+        expect(resp.statusCode).toEqual(200)
+        console.log(resp.body.jobs)
+        expect(resp.body.jobs[0]).toMatchObject({
+            title: 'j2',
+            salary: 200000,
+            equity: '0',
+            companyHandle: 'c1'
+        })
+        expect(resp.body.jobs[1]).toMatchObject({
+            title: 'j3',
+            salary: 105000,
+            equity: '0.5',
+            companyHandle: 'c2'
         })
     })
 })

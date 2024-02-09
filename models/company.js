@@ -102,7 +102,6 @@ class Company {
 
     if(where.length > 0){
       query += 'WHERE '+ where.join(' AND ') + ' ORDER BY name'
-      console.log(query)
     }
 
     const results = await db.query(query, queryValues)
