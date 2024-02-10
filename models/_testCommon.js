@@ -30,12 +30,20 @@ async function commonBeforeAll() {
         await bcrypt.hash("password1", BCRYPT_WORK_FACTOR),
         await bcrypt.hash("password2", BCRYPT_WORK_FACTOR),
       ]);
-  await db.query(
+  const jobs = await db.query(
     `INSERT INTO jobs (title, salary, equity, company_handle)
     VALUES ('j1', 100000, '0', 'c1'),
             ('j2', 200000, '0', 'c1'),
             ('j1', 100100, '0.5', 'c2')
             RETURNING id`
+  )
+
+  //u2 has applied for every job.
+  await db.query(
+    `INSERT INTO applications (username, job_id)
+    VALUES ('u2', ${jobs.rows[0].id}), 
+      ('u2', ${jobs.rows[1].id}), 
+      ('u2',${jobs.rows[2].id})`
   )
 }
 

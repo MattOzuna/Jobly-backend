@@ -204,7 +204,37 @@ class User {
 
     if (!user) throw new NotFoundError(`No user: ${username}`);
   }
-}
 
+
+  /**Adds a username/job-id unique pair into the db
+   * 
+   * 
+  */
+
+  static async apply(username, jobId) {
+    const duplicateCheck = await db.query(
+      `SELECT username, job_id
+       FROM applications
+       WHERE username = $1
+       AND job_id = $2`,
+    [username, jobId],
+    );
+
+    if (duplicateCheck.rows[0]) {
+      throw new BadRequestError(`Duplicate application: ${username} has already applied for ${jobId} `);
+    }
+
+    const result = await db.query(
+      `INSERT INTO applications (username, job_id)
+      VALUES ($1, $2)
+      RETURNING username, job_id AS "jobId"`,
+      [username, jobId]
+    );
+    const application = result.rows[0];
+
+    return application;
+  }
+
+}
 
 module.exports = User;

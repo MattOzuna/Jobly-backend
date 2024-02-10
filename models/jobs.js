@@ -49,7 +49,7 @@ class Jobs {
    */
 
     static async findSome(queries){
-        const {minSalary, hasEquity} = queries
+        const {minSalary, hasEquity, title} = queries
 
         let query = `SELECT id,
                             title,
@@ -61,8 +61,8 @@ class Jobs {
         let queryValues = [];
         
 
-        if(queries.title){
-            queryValues.push('%'+queries.title+'%')
+        if(title){
+            queryValues.push('%'+title+'%')
             where.push(`title ILIKE $${queryValues.length}`)
         }
 

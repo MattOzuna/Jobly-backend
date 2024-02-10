@@ -228,3 +228,29 @@ describe("remove", function () {
     }
   });
 });
+
+/************************************** apply */
+
+describe('apply', () => {
+  test('works', async () => {
+    const jobs = await db.query(
+      `SELECT id FROM jobs;`
+    )
+    let application = await User.apply('u1', jobs.rows[0].id)
+    expect(application).toEqual({
+      username: 'u1',
+      jobId: jobs.rows[0].id
+    })
+  })
+  test('duplicate application', async () => {
+    const jobs = await db.query(
+      `SELECT id FROM jobs;`
+    );
+    try{
+      let application = await User.apply('u2', jobs.rows[0].id);
+      fail();
+    } catch (err){
+      expect(err instanceof BadRequestError).toBeTruthy();
+    }
+  })
+})
