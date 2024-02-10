@@ -148,11 +148,9 @@ describe('PATCH /jobs/id', () => {
         title: "New",
         salary: 100000,
         equity: 0.7,
-        companyHandle: "c2",
     };
     const newJobWithRequiredOnly = {
-        title: "New",
-        companyHandle: "c2",
+        title: "New"
     };
     test('update job data as admin', async () => {
         const idArr = await db.query(
@@ -169,12 +167,12 @@ describe('PATCH /jobs/id', () => {
                 title: "New",
                 salary: 100000,
                 equity: "0.7",
-                companyHandle: "c2",
+                companyHandle: "c1",
             }
         })
     })
 
-    test('update job data as admin', async () => {
+    test('update job title data only as admin', async () => {
         const idArr = await db.query(
             `SELECT id FROM jobs WHERE title = 'j2'`
         )
@@ -189,7 +187,7 @@ describe('PATCH /jobs/id', () => {
                 title: "New",
                 salary: 200000,
                 equity: "0",
-                companyHandle: "c2",
+                companyHandle: "c1",
             }
         })
     })    
@@ -216,7 +214,7 @@ describe('PATCH /jobs/id', () => {
         expect(resp.statusCode).toEqual(401)
     })
 })
-/************************************** Patch /jobs/id */
+/************************************** Delete /jobs/id */
 
 describe('DELETE /jobs/id', () => {
     test('works for admin', async () => {

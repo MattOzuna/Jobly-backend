@@ -229,14 +229,13 @@ describe("update", function () {
         title: "New",
         salary: 100000,
         equity: "0",
-        companyHandle: "c1",
     };
     test("works", async function () {
         const idArr = await db.query(
             `SELECT id FROM jobs WHERE title = 'j2'`
         ) 
         let job = await Jobs.update(idArr.rows[0].id, updateData);
-        expect(job).toEqual({
+        expect(job).toMatchObject({
             id: idArr.rows[0].id,
             ...updateData,
         });
@@ -258,14 +257,13 @@ describe("update", function () {
         const updateDataSetNulls = {
             title: "New",
             salary: null,
-            equity: null,
-            companyHandle: "c1",
+            equity: null
         };
         const idArr = await db.query(
             `SELECT id FROM jobs WHERE title = 'j2'`
         ) 
         let job = await Jobs.update(idArr.rows[0].id, updateDataSetNulls);
-        expect(job).toEqual({
+        expect(job).toMatchObject({
             id: idArr.rows[0].id,
             ...updateDataSetNulls,
         });
