@@ -121,6 +121,10 @@ describe("GET /companies", function () {
 
 describe("GET /companies/:handle", function () {
   test("works for anon", async function () {
+    const jobIds = await db.query(
+      `SELECT id FROM jobs;`
+    )
+
     const resp = await request(app).get(`/companies/c1`);
     expect(resp.body).toEqual({
       company: {
@@ -129,9 +133,23 @@ describe("GET /companies/:handle", function () {
         description: "Desc1",
         numEmployees: 1,
         logoUrl: "http://c1.img",
-      },
+        jobs: [{
+                companyHandle: "c1",
+                equity: "0",
+                id: jobIds.rows[0].id,
+                salary: 100000,
+                title: "j1",
+               },
+               {
+                companyHandle: "c1",
+                equity: "0",
+                id: jobIds.rows[1].id,
+                salary: 200000,
+                title: "j2",
+               }]
+        }
+      })
     });
-  });
 
   test("works for anon: company w/o jobs", async function () {
     const resp = await request(app).get(`/companies/c2`);

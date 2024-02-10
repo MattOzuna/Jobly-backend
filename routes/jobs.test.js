@@ -90,7 +90,7 @@ describe('GET /jobs', () =>{
             title: 'j3',
             salary: 105000,
             equity: '0.5',
-            companyHandle: 'c2'
+            companyHandle: 'c3'
         })
     })
 
@@ -109,7 +109,7 @@ describe('GET /jobs', () =>{
             title: 'j3',
             salary: 105000,
             equity: '0.5',
-            companyHandle: 'c2'
+            companyHandle: 'c3'
         })
     })
 })

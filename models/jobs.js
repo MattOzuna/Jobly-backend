@@ -117,7 +117,6 @@ class Jobs {
             WHERE company_handle = $1`,
             [companyHandle]
         );
-        if (!jobs.rows[0]) throw new NotFoundError(`No jobs for company ${companyHandle}}`)
         return jobs.rows
     }
 
