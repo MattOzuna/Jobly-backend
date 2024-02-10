@@ -12,16 +12,20 @@ To run the tests:
 
 ## Change log
 
-**Part 1**  
+**Part 1 Understanding Code and wrote first test**  
 - Wrote test for the helpers/sql  
 
-**Part 2**  
-- Added filtering for the "/companies" route  
+**Part 2 Company routes filtering**  
+- Added filtering for the "/companies" route with the queries: name, minEmployees, maxEmployees
 
-**Part 3**  
+**Part 3 Change Authorization**  
 - Added some middleware for routes to check for isAdmin and isAdmin or signedin user matches the user specific route  
 
-**Part 4**
-- Added a jobs model and routes and added testing for model and routes
-- Added filtering for the "/jobs" route
+**Part 4 Jobs**  
+- Added a jobs model, jsonschema and routes
+- Added testing for model and routes
+- Added filtering for the "/jobs" route with the queries: title, minSalary, hasEquity
 - Added jobs association for the "/companies/:handle" route
+
+**Part 5 Job Applications**  
+- In progress...
