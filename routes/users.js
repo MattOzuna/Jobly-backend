@@ -119,4 +119,20 @@ router.delete("/:username", ensureLoggedIn, ensureAdminOrUser, async function (r
 });
 
 
+/**POST /[username]/jobs/[id] => {application: username, jobId}
+ * 
+ * This returns the newly created application
+ * {application: {username, jobId}}
+ * 
+ * Authorization required: logged in user matches username
+ */
+router.post('/:username/jobs/:id', ensureLoggedIn, ensureAdminOrUser, async (req,res,next) => {
+  try{
+    const application = await User.apply(req.params.username, req.params.id)
+    return res.status(201).json({ application })
+  } catch(err){
+    return next(err)
+  }
+})
+
 module.exports = router;

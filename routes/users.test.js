@@ -12,7 +12,8 @@ const {
   commonAfterEach,
   commonAfterAll,
   u1Token,
-  u2Token
+  u2Token,
+  u3Token
 } = require("./_testCommon");
 
 beforeAll(commonBeforeAll);
@@ -310,3 +311,29 @@ describe("DELETE /users/:username", function () {
     expect(resp.statusCode).toEqual(404);
   });
 });
+
+
+/************************************** Apply /users/:username/jobs/:id */
+
+describe('POST /users/:username/jobs/:id', () =>{
+  test('works for user', async () =>{
+    const idArr = await db.query(
+      `SELECT id FROM jobs WHERE title = 'j1'`
+  )
+    const resp = await request(app)
+        .post(`/users/u1/jobs/${idArr.rows[0].id}`)
+        .set("authorization", `Bearer ${u1Token}`);
+    
+    expect(resp.statusCode).toEqual(201)
+  })
+  test('wrong user signed in', async () =>{
+    const idArr = await db.query(
+      `SELECT id FROM jobs WHERE title = 'j1'`
+  )
+    const resp = await request(app)
+        .post(`/users/u1/jobs/${idArr.rows[0].id}`)
+        .set("authorization", `Bearer ${u3Token}`);
+    
+    expect(resp.statusCode).toEqual(401)
+  })
+})
