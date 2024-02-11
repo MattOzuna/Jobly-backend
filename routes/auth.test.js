@@ -87,6 +87,7 @@ describe("POST /auth/register", function () {
     expect(resp.statusCode).toEqual(201);
     expect(resp.body).toEqual({
       "token": expect.any(String),
+      username: "new"
     });
   });
 

@@ -22,10 +22,10 @@ function authenticateJWT(req, res, next) {
       const token = authHeader.replace(/^[Bb]earer /, "").trim();
       res.locals.user = jwt.verify(token, SECRET_KEY);
     }
-    return next();
-  } catch (err) {
-    return next();
-  } 
+  } catch (err) {} 
+  finally{
+    return next()
+  }
 }
 
 /** Middleware to use when they must be logged in.
