@@ -194,6 +194,43 @@ describe("create", function () {
     });
   });
 
+  /************************************** get by username*/
+
+  describe("getByUsername", function () {
+    test('works', async () =>{
+        const idArr = await db.query(
+            `SELECT id FROM jobs`
+        ) 
+        let jobs = await Jobs.getByUsername('u2')
+        console.log(jobs)
+        expect(jobs).toEqual([
+            {   
+                id: idArr.rows[0].id,
+                title: "j1",
+                salary: 100000,
+                equity: "0",
+                companyHandle: "c1"
+            },
+            {   
+                id: idArr.rows[1].id,
+                title: "j2",
+                salary: 200000,
+                equity: "0",
+                companyHandle: "c1"
+            },
+            {   
+                id: idArr.rows[2].id,
+                title: "j1",
+                salary: 100100,
+                equity: "0.5",
+                companyHandle: "c2"
+            }
+        ])
+    })
+  })
+
+
+
   /************************************** remove */
 
 describe("remove", function () {

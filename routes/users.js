@@ -8,6 +8,7 @@ const express = require("express");
 const { ensureLoggedIn, ensureAdmin, ensureAdminOrUser } = require("../middleware/auth");
 const { BadRequestError } = require("../expressError");
 const User = require("../models/user");
+const Jobs = require('../models/jobs')
 const { createToken } = require("../helpers/tokens");
 const userNewSchema = require("../schemas/userNew.json");
 const userUpdateSchema = require("../schemas/userUpdate.json");
@@ -71,6 +72,8 @@ router.get("/", ensureLoggedIn, ensureAdmin, async function (req, res, next) {
 router.get("/:username", ensureLoggedIn, ensureAdminOrUser, async function (req, res, next) {
   try {
     const user = await User.get(req.params.username);
+    const jobs = await Jobs.getByUsername(req.params.username)
+    if (jobs[0]) user.jobs = jobs
     return res.json({ user });
   } catch (err) {
     return next(err);
@@ -124,7 +127,7 @@ router.delete("/:username", ensureLoggedIn, ensureAdminOrUser, async function (r
  * This returns the newly created application
  * {application: {username, jobId}}
  * 
- * Authorization required: logged in user matches username
+ * Authorization required: logged in user matches username or is Admin
  */
 router.post('/:username/jobs/:id', ensureLoggedIn, ensureAdminOrUser, async (req,res,next) => {
   try{

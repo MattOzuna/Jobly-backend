@@ -120,6 +120,24 @@ class Jobs {
         return jobs.rows
     }
 
+    static async getByUsername(username){
+        const jobs = await db.query(
+            `SELECT id, 
+                    title, 
+                    salary, 
+                    equity, 
+                    company_handle AS "companyHandle"
+            FROM jobs
+            JOIN applications
+            ON jobs.id = applications.job_id
+            WHERE username = $1`,
+            [username]
+        );
+        return jobs.rows
+    }
+
+    
+
     /** Update jobs data with `data`.
    *
    * This is a "partial update" --- it's fine if data doesn't contain all the

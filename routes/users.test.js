@@ -177,10 +177,46 @@ describe("GET /users/:username", function () {
         firstName: "U1F",
         lastName: "U1L",
         email: "user1@user.com",
-        isAdmin: false,
+        isAdmin: false
       },
     });
   });
+
+  test("works for users with jobs", async function () {
+    const idArr = await db.query(
+      `SELECT id FROM jobs`
+  )
+    const resp = await request(app)
+        .get(`/users/u2`)
+        .set("authorization", `Bearer ${u2Token}`);
+    expect(resp.body).toEqual({
+      user: {
+        username: "u2",
+        firstName: "U2F",
+        lastName: "U2L",
+        email: "user2@user.com",
+        isAdmin: false,
+        jobs: [
+          {
+            id: idArr.rows[0].id,
+            title: "j1",
+            salary: 100000,
+            equity: "0",
+            companyHandle: "c1"
+          },
+          {
+            id: idArr.rows[1].id,
+            title: "j2",
+            salary: 200000,
+            equity: "0",
+            companyHandle: "c1"
+          }
+        ]
+      },
+    });
+  });
+
+
 
   test("unauth for anon", async function () {
     const resp = await request(app)
@@ -325,6 +361,11 @@ describe('POST /users/:username/jobs/:id', () =>{
         .set("authorization", `Bearer ${u1Token}`);
     
     expect(resp.statusCode).toEqual(201)
+    expect(resp.body).toEqual(
+      {
+        application: { username: 'u1', jobId: idArr.rows[0].id }
+      }
+    )
   })
   test('wrong user signed in', async () =>{
     const idArr = await db.query(

@@ -62,13 +62,13 @@ async function commonBeforeAll() {
     isAdmin: false,
   });
 
-  await Jobs.create({
+  const job1 = await Jobs.create({
     title: "j1",
     salary: 100000,
     equity: "0",
     companyHandle: "c1"
   })
-  await Jobs.create({
+  const job2 = await Jobs.create({
     title: "j2",
     salary: 200000,
     equity: "0",
@@ -80,6 +80,8 @@ async function commonBeforeAll() {
     equity: "0.5",
     companyHandle: "c3"
   })
+  await User.apply('u2', job1.id)
+  await User.apply('u2', job2.id)
 }
 
 async function commonBeforeEach() {
