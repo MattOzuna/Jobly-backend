@@ -185,7 +185,7 @@ describe("GET /users/:username", function () {
   test("works for users with jobs", async function () {
     const idArr = await db.query(
       `SELECT id FROM jobs`
-  )
+    )
     const resp = await request(app)
         .get(`/users/u2`)
         .set("authorization", `Bearer ${u2Token}`);
@@ -256,6 +256,43 @@ describe("PATCH /users/:username", () => {
         lastName: "U1L",
         email: "user1@user.com",
         isAdmin: false,
+      },
+    });
+  });
+
+  test("works for users with jobs", async function () {
+    const idArr = await db.query(
+      `SELECT id FROM jobs`
+    ) 
+    const resp = await request(app)
+        .patch(`/users/u2`)
+        .send({
+          firstName: "New",
+        })
+        .set("authorization", `Bearer ${u2Token}`);
+    expect(resp.body).toEqual({
+      user: {
+        username: "u2",
+        firstName: "New",
+        lastName: "U2L",
+        email: "user2@user.com",
+        isAdmin: false,
+        jobs:[
+          {
+            id: idArr.rows[0].id,
+            title: "j1",
+            salary: 100000,
+            equity: "0",
+            companyHandle: "c1"
+          },
+          {
+            id: idArr.rows[1].id,
+            title: "j2",
+            salary: 200000,
+            equity: "0",
+            companyHandle: "c1"
+          }
+        ]
       },
     });
   });

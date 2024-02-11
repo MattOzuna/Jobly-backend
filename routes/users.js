@@ -64,9 +64,9 @@ router.get("/", ensureLoggedIn, ensureAdmin, async function (req, res, next) {
 
 /** GET /[username] => { user }
  *
- * Returns { username, firstName, lastName, isAdmin }
+ * Returns { username, firstName, lastName, isAdmin, jobs: [{id, title, salary, equity, companyHandle},...] }
  *
- * Authorization required: login
+ * Authorization required: login as correct user or admin
  **/
 
 router.get("/:username", ensureLoggedIn, ensureAdminOrUser, async function (req, res, next) {
@@ -100,6 +100,8 @@ router.patch("/:username", ensureLoggedIn, ensureAdminOrUser, async function (re
     }
 
     const user = await User.update(req.params.username, req.body);
+    const jobs = await Jobs.getByUsername(req.params.username)
+    if (jobs[0]) user.jobs = jobs
     return res.json({ user });
   } catch (err) {
     return next(err);
