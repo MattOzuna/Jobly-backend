@@ -202,7 +202,6 @@ describe("create", function () {
             `SELECT id FROM jobs`
         ) 
         let jobs = await Jobs.getByUsername('u2')
-        console.log(jobs)
         expect(jobs).toEqual([
             {   
                 id: idArr.rows[0].id,
@@ -340,7 +339,6 @@ describe("update", function () {
             await Jobs.update(idArr.rows[0].id, {});
             fail();
         } catch (err) {
-            console.log(err.message)
             expect(err instanceof BadRequestError).toBeTruthy();
         }
     });
