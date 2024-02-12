@@ -98,7 +98,6 @@ describe('GET /jobs', () =>{
         const resp = await request(app).get('/jobs?minSalary=100001&hasEquity=false')
 
         expect(resp.statusCode).toEqual(200)
-        console.log(resp.body.jobs)
         expect(resp.body.jobs[0]).toMatchObject({
             title: 'j2',
             salary: 200000,
