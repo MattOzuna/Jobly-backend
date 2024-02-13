@@ -3,9 +3,6 @@
     "type": "object",
     "default": {},
     "title": "Root Schema",
-    "required": [
-        "title"
-    ],
     "properties": {
         "title": {
             "type": "string",

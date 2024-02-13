@@ -204,7 +204,86 @@ To run the tests:
     - receive JSON:  
     ```
     {deleted:{
-            user
+            username
+        }
+    }
+    ```
+
+### /jobs
+- GET /jobs
+    - receive JSON:  
+    ```
+    {jobs: [
+            {
+                id,
+                title,
+                salary,
+                equity,
+                companyHandle
+            }, ...
+        ]
+    }
+    ```
+- POST /jobs
+    - send JSON:  
+    ```
+    {
+        title: string (must be unique),
+        salary: integer, 
+        equity: integer,
+        companyHandle: string,
+    }
+    ```
+    - receive JSON:  
+    ```
+    {job:{
+            id, 
+            title, 
+            salary, 
+            equity, 
+            companyHandle
+        }
+    }
+    ```
+
+- GET /jobs/id
+    - receive JSON:  
+    ```
+    {job:{
+            id, 
+            title, 
+            salary, 
+            equity, 
+            companyHandle
+        }
+    }
+    ```
+
+- PATCH /jobs/id
+    - send JSON:  
+    ```
+    {
+            title, 
+            salary, 
+            equity, 
+    }
+    ```
+    - receive JSON:  
+    ```
+    {job:{
+            id, 
+            title, 
+            salary, 
+            equity, 
+            companyHandle
+        }
+    }
+    ```
+- DELETE /jobs/id
+    - receive JSON:  
+    ```
+    {deleted:{
+            id
         }
     }
     ```
