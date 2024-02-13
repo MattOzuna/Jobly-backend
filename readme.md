@@ -15,11 +15,13 @@ To run the tests:
 - POST /auth/register
     - send JSON:  
     ```
-    {username: "string" (must be unique),
-    password: "string,
-    firstName: "string",
-    lastName: "string",
-    email: "valid email"}
+    {
+        username: "string" (must be unique),
+        password: "string,
+        firstName: "string",
+        lastName: "string",
+        email: "valid email"
+    }
     ```
     - receive JSON:  
     ```
@@ -56,7 +58,9 @@ To run the tests:
     {
         name: string (must be unique),
         handle: string (must be unique), 
-        description: string 
+        description: string,
+        numEmployees: integer,
+        logoUrl: string
     }
     ```
     - receive JSON:  
@@ -67,6 +71,49 @@ To run the tests:
             description, 
             numEmployees, 
             logoUrl
+        }
+    }
+    ```
+
+- GET /companies/handle
+    - receive JSON:  
+    ```
+    {company:{
+            handle, 
+            name, 
+            description, 
+            numEmployees, 
+            logoUrl
+        }
+    }
+    ```
+
+- PATCH /companies/handle
+    - send JSON:  
+    ```
+    {
+        name: string (must be unique),
+        description: string,
+        numEmployees: integer,
+        logoUrl: string
+    }
+    ```
+    - receive JSON:  
+    ```
+    {company:{
+            handle, 
+            name, 
+            description, 
+            numEmployees, 
+            logoUrl
+        }
+    }
+    ```
+- DELETE /companies/handle
+    - receive JSON:  
+    ```
+    {deleted:{
+            handle
         }
     }
     ```
