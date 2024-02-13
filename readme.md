@@ -9,7 +9,14 @@ To run the app:
 To run the tests:
 
     npm test
+## Routes
 
+### /Auth 
+- /auth/register
+    - send JSON: 
+    `{username, password, firstName, lastName, email}`
+    - receive JSON: 
+    `{token, username}`
 ## Change log
 
 **Part 1 Understanding Code and wrote first test**  
