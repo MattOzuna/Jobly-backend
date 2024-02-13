@@ -28,4 +28,12 @@ To run the tests:
 - Added jobs association for the "/companies/:handle" route
 
 **Part 5 Job Applications**  
-- In progress...
+- Added a route at POST /users/:username/jobs/:id that allows that user to apply for a job. That route should return JSON like:  
+
+`{ applied: jobId }`
+- Change the output of the get-all-info methods and routes for users so those include the a field with a simple list of job IDs the user has applied for:
+
+`{ ..., jobs: [ jobId, jobId, ... ] }`
+
+- Added finally to authenticateJWT middleware
+- Added username to register route to make using the routes easier
