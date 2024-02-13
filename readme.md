@@ -117,6 +117,97 @@ To run the tests:
         }
     }
     ```
+### /users
+- GET /users
+    - receive JSON:  
+    ```
+    {users: [
+            {
+                username,
+                firstName, 
+                lastName, 
+                email,
+                isAdmin
+            }, ...
+        ]
+    }
+    ```
+- POST /users
+    - send JSON:  
+    ```
+    {
+        username: string (must be unique),
+        password: string, 
+        firstName: string,
+        lastName: string,
+        email: string,
+        isAdmin: boolean
+    }
+    ```
+    - receive JSON:  
+    ```
+    {users:[{
+                username,
+                firstName, 
+                lastName, 
+                email,
+                isAdmin
+            }, ...]
+    }
+    ```
+
+- GET /users/username
+    - receive JSON:  
+    ```
+    {users:{
+                username,
+                firstName, 
+                lastName, 
+                email,
+                isAdmin
+            }
+    }
+    ```
+
+- PATCH /users/username
+    - send JSON:  
+    ```
+    {
+        password: string, 
+        firstName: string,
+        lastName: string,
+        email: string
+    }
+    ```
+    - receive JSON:  
+    ```
+    {user:{
+            username,
+            password, 
+            firstName,
+            lastName,
+            email
+        }
+    }
+    ```
+- POST /users/username/jobs/id
+    - receive JSON:  
+    ```
+    {application:{
+                username,
+                jobId
+            }
+    }
+    ```
+
+- DELETE /user/username
+    - receive JSON:  
+    ```
+    {deleted:{
+            user
+        }
+    }
+    ```
 
 ## Change log
 
