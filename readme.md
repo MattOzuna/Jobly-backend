@@ -11,12 +11,31 @@ To run the tests:
     npm test
 ## Routes
 
-### /Auth 
-- /auth/register
+### /auth 
+- POST /auth/register
     - send JSON:  
     `{username, password, firstName, lastName, email}`
     - receive JSON:  
     `{token, username}`
+- POST /auth/token
+    - send JSON:  
+    `{username, password }`
+    - receive JSON:  
+    `{token}`
+
+### /companies
+- GET /companies
+    - receive JSON:  
+    ```
+    {companies: [
+        {handle, 
+        name, 
+        description, 
+        numEmployees, 
+        logoUrl}]
+        }
+    ```
+
 ## Change log
 
 **Part 1 Understanding Code and wrote first test**  
