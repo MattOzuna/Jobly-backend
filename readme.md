@@ -13,9 +13,9 @@ To run the tests:
 
 ### /Auth 
 - /auth/register
-    - send JSON: 
+    - send JSON:  
     `{username, password, firstName, lastName, email}`
-    - receive JSON: 
+    - receive JSON:  
     `{token, username}`
 ## Change log
 
