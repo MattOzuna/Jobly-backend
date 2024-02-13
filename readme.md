@@ -15,7 +15,11 @@ To run the tests:
 - POST /auth/register
     - send JSON:  
     ```
-    {username, password, firstName, lastName, email}
+    {username: "string" (must be unique),
+    password: "string,
+    firstName: "string",
+    lastName: "string",
+    email: "valid email"}
     ```
     - receive JSON:  
     ```
@@ -23,21 +27,48 @@ To run the tests:
     ```
 - POST /auth/token
     - send JSON:  
-    `{username, password }`
+    ```
+    {username, password }
+    ```
     - receive JSON:  
-    `{token}`
+    ```
+    {token}
+    ```
 
 ### /companies
 - GET /companies
     - receive JSON:  
     ```
     {companies: [
-        {handle, 
-        name, 
-        description, 
-        numEmployees, 
-        logoUrl}]
+            {
+                handle, 
+                name, 
+                description, 
+                numEmployees, 
+                logoUrl
+            }, ...
+        ]
+    }
+    ```
+- POST /companies
+    - send JSON:  
+    ```
+    {
+        name: string (must be unique),
+        handle: string (must be unique), 
+        description: string 
+    }
+    ```
+    - receive JSON:  
+    ```
+    {company:{
+            handle, 
+            name, 
+            description, 
+            numEmployees, 
+            logoUrl
         }
+    }
     ```
 
 ## Change log
