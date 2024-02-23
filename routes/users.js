@@ -100,8 +100,6 @@ router.patch("/:username", ensureLoggedIn, ensureAdminOrUser, async function (re
     }
 
     const user = await User.update(req.params.username, req.body);
-    const jobs = await Jobs.getByUsername(req.params.username)
-    if (jobs[0]) user.jobs = jobs
     return res.json({ user });
   } catch (err) {
     return next(err);

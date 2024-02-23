@@ -276,23 +276,7 @@ describe("PATCH /users/:username", () => {
         firstName: "New",
         lastName: "U2L",
         email: "user2@user.com",
-        isAdmin: false,
-        jobs:[
-          {
-            id: idArr.rows[0].id,
-            title: "j1",
-            salary: 100000,
-            equity: "0",
-            companyHandle: "c1"
-          },
-          {
-            id: idArr.rows[1].id,
-            title: "j2",
-            salary: 200000,
-            equity: "0",
-            companyHandle: "c1"
-          }
-        ]
+        isAdmin: false
       },
     });
   });
